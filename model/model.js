@@ -1,0 +1,46 @@
+const mongoose = require('mongoose');
+
+const dataSchema = new mongoose.Schema({
+  organizationName: {
+    required: true,
+    type: String,
+  },
+  organizationEmailId: {
+    required: true,
+    type: String,
+  },
+  contactNumber: {
+    required: true,
+    type: Number,
+  },
+  organizationType: {
+    required: true,
+    type: String,
+  },
+  address: {
+    required: true,
+    type: Object,
+  },
+  country: {
+    required: true,
+    type: String,
+  },
+  state: {
+    required: true,
+    type: String,
+  },
+  city: {
+    required: true,
+    type: String,
+  },
+  zipCode: {
+    required: true,
+    type: Number,
+  },
+  regEmpId: {
+    required: true,
+    type: String,
+  },
+});
+
+module.exports = mongoose.model('Data', dataSchema);
