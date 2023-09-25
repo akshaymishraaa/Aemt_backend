@@ -1,23 +1,40 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
+require("dotenv").config();
+
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const routes = require("./routes/routes");
 
 const app = express();
-const mongoString = process.env.DATABASE_URL
+const mongoString = process.env.DATABASE_URL;
+
 mongoose.connect(mongoString);
-const database = mongoose.connection
 
-database.on('error', (error) => {
-    console.log(error)
-})
+const database = mongoose.connection;
 
-database.once('connected', () => {
-    console.log('Database Connected');
-})
-// const DataBase_Url = "mongodb+srv://akshaymishra1228:<OpgTPlkL8iZ4ehnj>@aemtdb.dcloy9k.mongodb.net/"
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true, }));
+app.use(bodyParser.json());
+app.use("/api", routes);
+
+database.once("connected", () => {
+  console.log("Database Connected");
+});
+
+const port = process.env.PORT || 3001;
+app.set("port", port);
+
+database.on("error", (error) => {
+  console.log(error);
+  errorHandler(error);
+});
 
 app.use(express.json());
 
-app.listen(3000, () => {
-    console.log(`Server Started at ${3000,mongoString}`)
-})
+app.listen(port, () => {
+  console.log(`Server Started at ${port}`);
+});
+
+
+
