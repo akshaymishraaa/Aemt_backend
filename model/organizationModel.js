@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const dataSchema = new mongoose.Schema({
+const organization = new mongoose.Schema({
   organizationName: {
     required: true,
     type: String,
@@ -41,6 +41,10 @@ const dataSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  password: {
+    required: true,
+    type: String,
+  },
 });
 
-module.exports = mongoose.model('Data', dataSchema);
+module.exports = mongoose.model("organization", organization);

@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Model = require("../model/model");
+const organization = require("../model/organizationModel");
 
 router.post("/registerUser", async (req, res) => {
   const body = req.body.data;
-  console.log("7....", body);
-  const data = new Model({
+  const data = new organization({
     organizationName: body.organizationName,
     organizationEmailId: body.organizationEmailId,
     contactNumber: body.contactNumber,
@@ -16,7 +15,9 @@ router.post("/registerUser", async (req, res) => {
     city: body.city,
     zipCode: body.zipCode,
     regEmpId: body.regEmpId,
+    password: body.password,
   });
+  console.log("7....", data);
   try {
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
@@ -24,12 +25,25 @@ router.post("/registerUser", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-router.get("/getUserDetails", (req, res) => {
-  res.send("Get all api");
+router.get("/getAllOrganization", async (req, res) => {
+  try {
+    const data = await organization.find();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
-//Get by ID Method
-router.get("/getOne/:id", (req, res) => {
-  res.send("Get by ID API");
+//For log in super user.
+router.post("/validateOrg", async (req, res) => {
+  try {
+    const data = await organization.find({
+      organizationEmailId: req.body.email,
+      password: req.body.password,
+    });
+    res.send(data);
+  } catch (error) {
+    res.send(500).json({ message: error.message });
+  }
 });
 
 //Update by ID Method
