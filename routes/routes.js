@@ -2,19 +2,20 @@ const express = require("express");
 const router = express.Router();
 const Model = require("../model/model");
 
-router.post("/registerUser", async(req, res) => {
-   console.log('7....',req.body)
+router.post("/registerUser", async (req, res) => {
+  const body = req.body.data;
+  console.log("7....", body);
   const data = new Model({
-    organizationName: req.body.organizationName,
-    organizationEmailId: req.body.organizationEmailId,
-    contactNumber: req.body.contactNumber,
-    organizationType: req.body.organizationType,
-    address: req.body.address,
-    country: req.body.country,
-    state: req.body.state,
-    city: req.body.city,
-    zipCode: req.body.zipCode,
-    regEmpId: req.body.regEmpId,
+    organizationName: body.organizationName,
+    organizationEmailId: body.organizationEmailId,
+    contactNumber: body.contactNumber,
+    organizationType: body.organizationType,
+    address: body.address,
+    country: body.country,
+    state: body.state,
+    city: body.city,
+    zipCode: body.zipCode,
+    regEmpId: body.regEmpId,
   });
   try {
     const dataToSave = await data.save();
