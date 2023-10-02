@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Model = require("../model/model");
 
-router.post("/registerUser", async(req, res) => {
-   console.log('7....',body)
-   const body = req.body.data;
+router.post("/registerUser", async (req, res) => {
+  const body = req.body.data;
+  console.log("7....", body);
   const data = new Model({
     organizationName: body.organizationName,
     organizationEmailId: body.organizationEmailId,
