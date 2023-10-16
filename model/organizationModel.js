@@ -5,9 +5,14 @@ const organization = new mongoose.Schema({
     required: true,
     type: String,
   },
+  role:{
+    required:true,
+    type:String,
+  },
   organizationEmailId: {
     required: true,
     type: String,
+    unique:true,
   },
   contactNumber: {
     required: true,
