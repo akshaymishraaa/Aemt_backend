@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const organization = require("../model/organizationModel");
 const userData = require("../model/userModel");
+const tabs =require("../model/tabsModel");
+
+const app = express();
 
 router.post("/registerUser", async (req, res) => {
   const data = new organization({
@@ -25,12 +28,10 @@ router.post("/registerUser", async (req, res) => {
       .json({ message: "User registered successfully.", status: "success" });
   } catch (error) {
     if (error.code === 11000) {
-      res
-        .status(200)
-        .json({
-          message:
-            "Email Id already exists,Please choose a different email-id for registration",
-        });
+      res.status(200).json({
+        message:
+          "Email Id already exists,Please choose a different email-id for registration",
+      });
     } else {
       res.status(500).json({ message: error.message });
     }
@@ -81,21 +82,17 @@ router.post("/createUser", async (req, res) => {
   });
   try {
     await data.save();
-    res
-      .status(200)
-      .json({
-        message: "User create successfully.use email id for login",
-        status: "success",
-      });
+    res.status(200).json({
+      message: "User create successfully.use email id for login",
+      status: "success",
+    });
   } catch (error) {
     if (error.code === 11000) {
-      res
-        .status(200)
-        .json({
-          status: "error",
-          message:
-            "Email Id already exists,Please choose a different email-id for user creation",
-        });
+      res.status(200).json({
+        status: "error",
+        message:
+          "Email Id already exists,Please choose a different email-id for user creation",
+      });
     } else {
       res.status(500).json({ message: error.message });
     }
@@ -111,6 +108,16 @@ router.get("/getAllUserDetails", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+//Get all Tabs
+
+router.get("/getTabs", async (req, res) => {
+  try {
+    const data = await tabs.find();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 //Update by ID Method
 router.patch("/update/:id", (req, res) => {
   res.send("Update by ID API");
@@ -120,5 +127,6 @@ router.patch("/update/:id", (req, res) => {
 router.delete("/delete/:id", (req, res) => {
   res.send("Delete by ID API");
 });
+
 
 module.exports = router;
