@@ -5,10 +5,6 @@ const organization = new mongoose.Schema({
     required: true,
     type: String,
   },
-  role:{
-    required:true,
-    type:String,
-  },
   organizationEmailId: {
     required: true,
     type: String,
@@ -43,10 +39,6 @@ const organization = new mongoose.Schema({
     type: Number,
   },
   regEmpId: {
-    required: true,
-    type: String,
-  },
-  password: {
     required: true,
     type: String,
   },

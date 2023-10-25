@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const organization = require("../model/organizationModel");
 const userData = require("../model/userModel");
-const tabs =require("../model/tabsModel");
+const tabs = require("../model/tabsModel");
 
 const app = express();
 
@@ -18,14 +18,14 @@ router.post("/registerUser", async (req, res) => {
     city: req?.body.city,
     zipCode: req?.body.zipCode,
     regEmpId: req?.body.regEmpId,
-    password: req?.body.password,
-    role: "superUser",
   });
   try {
-    await data.save();
-    res
-      .status(200)
-      .json({ message: "User registered successfully.", status: "success" });
+    const orgData = await data.save();
+    res.status(200).json({
+      organization: orgData.organizationName,
+      role: [{ label: "Super user", value: "superUser"}],
+      modules: ["Dashboard","User management","Application setting","Audit logs","User profile"],
+    });
   } catch (error) {
     if (error.code === 11000) {
       res.status(200).json({
@@ -127,6 +127,5 @@ router.patch("/update/:id", (req, res) => {
 router.delete("/delete/:id", (req, res) => {
   res.send("Delete by ID API");
 });
-
 
 module.exports = router;
