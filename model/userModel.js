@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const userData = new mongoose.Schema({
+  organization: {
+    required: true,
+    type: String,
+  },
   firstName: {
     required: true,
     type: String,
@@ -25,11 +29,11 @@ const userData = new mongoose.Schema({
   },
   role: {
     required: true,
-    type: String,
+    type: Array,
   },
   module: {
     required: true,
-    type: String,
+    type: Array,
   },
 });
 module.exports = mongoose.model("userData", userData);
