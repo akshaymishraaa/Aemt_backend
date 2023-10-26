@@ -5,8 +5,28 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const routes = require("./routes/routes");
-
+const swaggerJSDocs=   require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express')
 const app = express();
+
+const options = {
+  definition:{
+    openapi: '3.0.0',
+    info: {
+      title: 'Node js Api Project for mongodb',
+      version: '1.0.0',
+      },
+      servers:[{
+        url:'http://localhost:3001/'
+      }]},
+      apis: ['./routes/routes'],
+
+}
+
+const swaggerSpec = swaggerJSDocs(options);
+app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
+
 const mongoString = process.env.DATABASE_URL;
 
 mongoose.connect(mongoString);
