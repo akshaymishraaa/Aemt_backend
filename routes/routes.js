@@ -3,6 +3,9 @@ const router = express.Router();
 const organization = require("../model/organizationModel");
 const userData = require("../model/userModel");
 const tabs = require("../model/tabsModel");
+const countries = require("../model/countryModal");
+const states = require("../model/stateModal");
+const cities = require("../model/citiesModel");
 // const swaggerJSDoc = require('swagger-jsdoc');
 // const swaggerUi = require('swagger-ui-express')
 
@@ -41,8 +44,14 @@ router.post("/registerUser", async (req, res) => {
     const orgData = await data.save();
     res.status(200).json({
       organization: orgData.organizationName,
-      role: [{ label: "Super user", value: "superUser"}],
-      modules: ["Dashboard","User management","Application setting","Audit logs","User profile"],
+      role: [{ label: "Super user", value: "superUser" }],
+      modules: [
+        "Dashboard",
+        "User management",
+        "Application setting",
+        "Audit logs",
+        "User profile",
+      ],
     });
   } catch (error) {
     if (error.code === 11000) {
@@ -55,6 +64,8 @@ router.post("/registerUser", async (req, res) => {
     }
   }
 });
+// get all organization
+
 router.get("/getAllOrganization", async (req, res) => {
   try {
     const data = await organization.find();
@@ -63,15 +74,50 @@ router.get("/getAllOrganization", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// get All countries api.
+router.get("/countries", async (req, res) => {
+  try {
+    const data = await countries.find();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//get all state
+
+router.post("/states", async (req, res) => {
+  try {
+    const data = await states.find({
+      country_id: req.body.countryId,
+    });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//get all cities
+
+router.post("/cities", async (req, res) => {
+  try {
+    console.log("75....", req.body);
+    const data = await cities.find();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //For log in super user.
-router.post("/validateOrg", async (req, res) => {
+router.post("/validateUser", async (req, res) => {
   const request = req.body.values;
   try {
-    const data = await organization.find({
-      organizationEmailId: request.email,
+    const data = await userData.find({
+      email: request.email,
       password: request.password,
     });
-    console.log("38...", req.body, data);
     if (data.length > 0) {
       res.send(data);
     } else {
@@ -90,6 +136,7 @@ router.post("/validateOrg", async (req, res) => {
 
 router.post("/createUser", async (req, res) => {
   const data = new userData({
+    organization: req.body.orgName,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
