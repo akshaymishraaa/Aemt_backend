@@ -6,27 +6,23 @@ const tabs = require("../model/tabsModel");
 const countries = require("../model/countryModal");
 const states = require("../model/stateModal");
 const cities = require("../model/citiesModel");
-// const swaggerJSDoc = require('swagger-jsdoc');
-// const swaggerUi = require('swagger-ui-express')
 
 const app = express();
+// /**
+//  * @swagger
+//  * /:
+//  *  get:
+//  *      summary:This Api is for register user
+//  *      description:This Api is for register user
+//  *      responses:
+//  *           200:
+//  *                description: To test post resgister 
+//  */
+// app.get('/',(req,res)=>{
+//   res.send('Welcome to mongodb api')
+// })
 
-// const options = {
-//   definition:{
-//     openapi: '3.0.0',
-//     info: {
-//       title: 'Node js Api Project for mongodb',
-//       version: '1.0.0',
-//       },
-//       servers:[{
-//         url:'http://localhost:3001/'
-//       }],
-//       apis: ['./routes.js'],
-// }
-// }
 
-// const swaggerspec = swaggerJSDoc(options)
-// app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerspec))
 router.post("/registerUser", async (req, res) => {
   const data = new organization({
     organizationName: req?.body.organizationName,
