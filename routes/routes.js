@@ -46,11 +46,23 @@ router.post("/registerUser", async (req, res) => {
       organization: orgData.organizationName,
       role: [{ label: "Super user", value: "superUser" }],
       modules: [
-        "Dashboard",
-        "User management",
-        "Application setting",
-        "Audit logs",
-        "User profile",
+        { label: "Dashboard", status: true, value: "dashboard" },
+        { label: "User management", status: true, value: "userManagement" },
+        {
+          label: "Application settings",
+          status: true,
+          value: "applicationSetting",
+        },
+        { label: "Audit logs", status: true, value: "auditLogs" },
+        { label: "User profile", status: true, value: "userProfile" },
+        { label: "Student admin", status: false, value: "studentAdmin" },
+        { label: "Employee admin", status: false, value: "employeeAdmin" },
+        {
+          label: "Examination admin",
+          status: false,
+          value: "examinationAdmin",
+        },
+        { label: "Management admin", status: false, value: "managementAdmin" },
       ],
     });
   } catch (error) {
@@ -112,14 +124,19 @@ router.post("/cities", async (req, res) => {
 
 //For log in super user.
 router.post("/validateUser", async (req, res) => {
-  const request = req.body.values;
+  const request = req.body;
   try {
     const data = await userData.find({
       email: request.email,
       password: request.password,
     });
     if (data.length > 0) {
-      res.send(data);
+      const _data = data.map((item) => {
+        delete item.password;
+        return item;
+      });
+      console.log("122.....", _data);
+      res.send({ id: data[0]._id });
     } else {
       res.send({
         errorCode: 400,
@@ -168,6 +185,18 @@ router.post("/createUser", async (req, res) => {
 router.get("/getAllUserDetails", async (req, res) => {
   try {
     const data = await userData.find();
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// find user by user id API
+
+router.get("/findUserById/:id", async (req, res) => {
+  const _id = req.params.id
+  try {
+    const data = await userData.findById(_id);
+    delete data.password
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
