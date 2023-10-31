@@ -193,10 +193,10 @@ router.get("/getAllUserDetails", async (req, res) => {
 // find user by user id API
 
 router.get("/findUserById/:id", async (req, res) => {
-  const _id = req.params.id
+  const _id = req.params.id;
   try {
     const data = await userData.findById(_id);
-    delete data.password
+    delete data.password;
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -213,13 +213,28 @@ router.get("/getTabs", async (req, res) => {
   }
 });
 //Update by ID Method
-router.patch("/update/:id", (req, res) => {
-  res.send("Update by ID API");
+router.patch("/updateUserById/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+    const options = { new: true }; // this true or false will specify that whether we want to return a new data in body or not.
+    const data = await userData.findByIdAndUpdate(id, updatedUserData, options);
+
+    res.send(data);
+  } catch (error) {
+    res.send(400).json({ message: error.message });
+  }
 });
 
-//Delete by ID Method
-router.delete("/delete/:id", (req, res) => {
-  res.send("Delete by ID API");
+//Delete user by Id
+router.delete("/deleteUserById/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await userData.findByIdAndDelete(id);
+    res.send("User successfully delete.");
+  } catch (error) {
+    res.send(400).json({ message: error.message });
+  }
 });
 
 module.exports = router;
