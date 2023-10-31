@@ -13,15 +13,18 @@ const options = {
   definition:{
     openapi: '3.0.0',
     info: {
-      title: 'Node js Api Project for mongodb',
+      title: 'ERP Api Documentation',
+      description: 'All the api for erp listed here',
       version: '1.0.0',
       },
       servers:[{
         url:'http://localhost:3001/'
       }]},
-      apis: ['./routes/routes'],
+      apis: ['./routes/routes.js'],
 
 }
+
+
 
 const swaggerSpec = swaggerJSDocs(options);
 app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec))

@@ -6,27 +6,47 @@ const tabs = require("../model/tabsModel");
 const countries = require("../model/countryModal");
 const states = require("../model/stateModal");
 const cities = require("../model/citiesModel");
-// const swaggerJSDoc = require('swagger-jsdoc');
-// const swaggerUi = require('swagger-ui-express')
 
 const app = express();
 
-// const options = {
-//   definition:{
-//     openapi: '3.0.0',
-//     info: {
-//       title: 'Node js Api Project for mongodb',
-//       version: '1.0.0',
-//       },
-//       servers:[{
-//         url:'http://localhost:3001/'
-//       }],
-//       apis: ['./routes.js'],
-// }
-// }
 
-// const swaggerspec = swaggerJSDoc(options)
-// app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerspec))
+/**
+ * @swagger
+ * /registerUser:
+ *   post:
+ *     summary: Register user.
+ *     description: Register user for erp application.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
+
+
 router.post("/registerUser", async (req, res) => {
   const data = new organization({
     organizationName: req?.body.organizationName,
@@ -76,8 +96,43 @@ router.post("/registerUser", async (req, res) => {
     }
   }
 });
-// get all organization
 
+// get all organization
+/**
+ * @swagger
+ * /getAllOrganization:
+ *   get:
+ *     summary: Get all organization.
+ *     description: Get the Registered Organization.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.get("/getAllOrganization", async (req, res) => {
   try {
     const data = await organization.find();
@@ -88,6 +143,41 @@ router.get("/getAllOrganization", async (req, res) => {
 });
 
 // get All countries api.
+/**
+ * @swagger
+ * /countries:
+ *   get:
+ *     summary: Get all countries.
+ *     description: Get all the countries.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.get("/countries", async (req, res) => {
   try {
     const data = await countries.find();
@@ -98,7 +188,41 @@ router.get("/countries", async (req, res) => {
 });
 
 //get all state
-
+/**
+ * @swagger
+ * /states:
+ *   post:
+ *     summary: Get all the state.
+ *     description: Get all the state.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.post("/states", async (req, res) => {
   try {
     const data = await states.find({
@@ -111,7 +235,41 @@ router.post("/states", async (req, res) => {
 });
 
 //get all cities
-
+/**
+ * @swagger
+ * /cities:
+ *   post:
+ *     summary: Get all the cities .
+ *     description: Get all the cities.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.post("/cities", async (req, res) => {
   try {
     console.log("75....", req.body);
@@ -123,6 +281,41 @@ router.post("/cities", async (req, res) => {
 });
 
 //For log in super user.
+/**
+ * @swagger
+ * /validateUser:
+ *   post:
+ *     summary: Valiate User.
+ *     description: Validate users.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.post("/validateUser", async (req, res) => {
   const request = req.body;
   try {
@@ -150,7 +343,41 @@ router.post("/validateUser", async (req, res) => {
 });
 
 // API for create User
-
+/**
+ * @swagger
+ * /createUser:
+ *   post:
+ *     summary: Create User.
+ *     description: Create User.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.post("/createUser", async (req, res) => {
   const data = new userData({
     organization: req.body.orgName,
@@ -182,6 +409,41 @@ router.post("/createUser", async (req, res) => {
 });
 
 // find all user API
+/**
+ * @swagger
+ * /getAllUserDetails:
+ *   get:
+ *     summary: Get all users details.
+ *     description: Get all users details.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.get("/getAllUserDetails", async (req, res) => {
   try {
     const data = await userData.find();
@@ -191,6 +453,41 @@ router.get("/getAllUserDetails", async (req, res) => {
   }
 });
 // find user by user id API
+/**
+ * @swagger
+ * /findUserById:
+ *   get:
+ *     summary: Find User by userId.
+ *     description: Find User by userId.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 
 router.get("/findUserById/:id", async (req, res) => {
   const _id = req.params.id
@@ -203,7 +500,41 @@ router.get("/findUserById/:id", async (req, res) => {
   }
 });
 //Get all Tabs
-
+/**
+ * @swagger
+ * /getTabs:
+ *   get:
+ *     summary: Get all the tabs in module.
+ *     description: Get all the tabs in module.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.get("/getTabs", async (req, res) => {
   try {
     const data = await tabs.find();
@@ -213,11 +544,81 @@ router.get("/getTabs", async (req, res) => {
   }
 });
 //Update by ID Method
+/**
+ * @swagger
+ * /update:
+ *   patch:
+ *     summary: Update User by userId.
+ *     description: Update User by userId.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.patch("/update/:id", (req, res) => {
   res.send("Update by ID API");
 });
 
 //Delete by ID Method
+/**
+ * @swagger
+ * /delete:
+ *   delete:
+ *     summary: Delete user by user id.
+ *     description: Delete user by user id.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
 router.delete("/delete/:id", (req, res) => {
   res.send("Delete by ID API");
 });
