@@ -6,9 +6,10 @@ const tabs = require("../model/tabsModel");
 const countries = require("../model/countryModal");
 const states = require("../model/stateModal");
 const cities = require("../model/citiesModel");
+// const swaggerJSDoc = require('swagger-jsdoc');
+// const swaggerUi = require('swagger-ui-express')
 
 const app = express();
-
 
 /**
  * @swagger
@@ -45,8 +46,6 @@ const app = express();
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-
-
 router.post("/registerUser", async (req, res) => {
   const data = new organization({
     organizationName: req?.body.organizationName,
@@ -97,6 +96,7 @@ router.post("/registerUser", async (req, res) => {
   }
 });
 
+
 // get all organization
 /**
  * @swagger
@@ -133,6 +133,7 @@ router.post("/registerUser", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
+
 router.get("/getAllOrganization", async (req, res) => {
   try {
     const data = await organization.find();
@@ -452,6 +453,7 @@ router.get("/getAllUserDetails", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 // find user by user id API
 /**
  * @swagger
@@ -488,17 +490,17 @@ router.get("/getAllUserDetails", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-
 router.get("/findUserById/:id", async (req, res) => {
-  const _id = req.params.id
+  const _id = req.params.id;
   try {
     const data = await userData.findById(_id);
-    delete data.password
+    delete data.password;
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+//Get all Tabs
 //Get all Tabs
 /**
  * @swagger
@@ -579,11 +581,20 @@ router.get("/getTabs", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.patch("/update/:id", (req, res) => {
-  res.send("Update by ID API");
+router.patch("/updateUserById/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+    const options = { new: true }; // this true or false will specify that whether we want to return a new data in body or not.
+    const data = await userData.findByIdAndUpdate(id, updatedUserData, options);
+
+    res.send(data);
+  } catch (error) {
+    res.send(400).json({ message: error.message });
+  }
 });
 
-//Delete by ID Method
+//Delete user by Id
 /**
  * @swagger
  * /delete:
@@ -619,8 +630,14 @@ router.patch("/update/:id", (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.delete("/delete/:id", (req, res) => {
-  res.send("Delete by ID API");
+router.delete("/deleteUserById/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await userData.findByIdAndDelete(id);
+    res.send("User successfully delete.");
+  } catch (error) {
+    res.send(400).json({ message: error.message });
+  }
 });
 
 module.exports = router;
