@@ -17,13 +17,45 @@ const app = express();
  *   post:
  *     summary: Register user.
  *     description: Register user for erp application.
- *     parameters:
- *       - in: path
- *         name: organizationName
- *         required: true
- *         description: Organization Name you have to user.
- *         schema:
- *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               organizationName:
+ *                 type: string
+ *                 description: The  organization name.
+ *               organizationEmailId:
+ *                 type: string
+ *                 description: The  organization email id.
+ *               contactNumber:
+ *                 type: number
+ *                 description: The  contact number.
+ *                 example: 9113775375
+ *               organizationType:
+ *                 type: string
+ *                 description: The  organization Type.
+ *               address:
+ *                 type: string
+ *                 description: The  address.
+ *               country:
+ *                 type: string
+ *                 description: The  country.
+ *               state:
+ *                 type: string
+ *                 description: The  state.
+ *               city:
+ *                 type: string
+ *                 description: The  city.
+ *               zipCode:
+ *                 type: number
+ *                 description: The  zipcode.
+ *                 example: 844101
+ *               regEmpId:
+ *                 type: string
+ *                 description: The  organization name.
  *     responses:
  *       200:
  *         description: A list of users.
@@ -104,13 +136,6 @@ router.post("/registerUser", async (req, res) => {
  *   get:
  *     summary: Get all organization.
  *     description: Get the Registered Organization.
- *     parameters:
- *       - in: path
- *         name: organizationName
- *         required: true
- *         description: Organization Name you have to user.
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: A list of users.
