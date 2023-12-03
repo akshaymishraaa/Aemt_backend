@@ -8,6 +8,7 @@ const routes = require("./routes/routes");
 const swaggerJSDocs=   require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express')
 const app = express();
+const {connectDb} = require('./config/db')
 
 const options = {
   definition:{
@@ -24,15 +25,12 @@ const options = {
 
 }
 
+connectDb();
+
 
 
 const swaggerSpec = swaggerJSDocs(options);
 app.use('/api-docs',swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-
-
-const mongoString = process.env.DATABASE_URL;
-
-mongoose.connect(mongoString);
 
 const database = mongoose.connection;
 
@@ -41,9 +39,9 @@ app.use(bodyParser.urlencoded({ extended: true, }));
 app.use(bodyParser.json());
 app.use("/api", routes);
 
-database.once("connected", () => {
-  console.log("Database Connected");
-});
+// database.once("connected", () => {
+//   console.log("Database Connected");
+// });
 
 const port = process.env.PORT || 3001;
 app.set("port", port);

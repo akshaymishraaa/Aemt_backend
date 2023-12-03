@@ -1,132 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const organization = require("../model/organizationModel");
-const userData = require("../model/userModel");
 const tabs = require("../model/tabsModel");
 const countries = require("../model/countryModal");
 const states = require("../model/stateModal");
 const cities = require("../model/citiesModel");
-// const swaggerJSDoc = require('swagger-jsdoc');
-// const swaggerUi = require('swagger-ui-express')
-
-const app = express();
-
-/**
- * @swagger
- * /registerUser:
- *   post:
- *     summary: Register user.
- *     description: Register user for erp application.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               organizationName:
- *                 type: string
- *                 description: The  organization name.
- *               organizationEmailId:
- *                 type: string
- *                 description: The  organization email id.
- *               contactNumber:
- *                 type: number
- *                 description: The  contact number.
- *                 example: 9113775375
- *               organizationType:
- *                 type: string
- *                 description: The  organization Type.
- *               address:
- *                 type: string
- *                 description: The  address.
- *               country:
- *                 type: string
- *                 description: The  country.
- *               state:
- *                 type: string
- *                 description: The  state.
- *               city:
- *                 type: string
- *                 description: The  city.
- *               zipCode:
- *                 type: number
- *                 description: The  zipcode.
- *                 example: 844101
- *               regEmpId:
- *                 type: string
- *                 description: The  organization name.
- *     responses:
- *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
- */
-router.post("/registerUser", async (req, res) => {
-  const data = new organization({
-    organizationName: req?.body.organizationName,
-    organizationEmailId: req?.body.organizationEmailId,
-    contactNumber: req?.body.contactNumber,
-    organizationType: req?.body.organizationType,
-    address: req?.body.address,
-    country: req?.body.country,
-    state: req?.body.state,
-    city: req?.body.city,
-    zipCode: req?.body.zipCode,
-    regEmpId: req?.body.regEmpId,
-  });
-  try {
-    const orgData = await data.save();
-    res.status(200).json({
-      organization: orgData.organizationName,
-      role: [{ label: "Super user", value: "superUser" }],
-      modules: [
-        { label: "Dashboard", status: true, value: "dashboard" },
-        { label: "User management", status: true, value: "userManagement" },
-        {
-          label: "Application settings",
-          status: true,
-          value: "applicationSetting",
-        },
-        { label: "Audit logs", status: true, value: "auditLogs" },
-        { label: "User profile", status: true, value: "userProfile" },
-        { label: "Student admin", status: false, value: "studentAdmin" },
-        { label: "Employee admin", status: false, value: "employeeAdmin" },
-        {
-          label: "Examination admin",
-          status: false,
-          value: "examinationAdmin",
-        },
-        { label: "Management admin", status: false, value: "managementAdmin" },
-      ],
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      res.status(200).json({
-        message:
-          "Email Id already exists,Please choose a different email-id for registration",
-      });
-    } else {
-      res.status(500).json({ message: error.message });
-    }
-  }
-});
+const {
+  registerOrganization,
+  validateUser,
+  createUser,
+  getAllUserDetails,
+  updateUserById,
+  findUserById,
+  deleteUserById,
+} = require("../controler/userControler");
 
 
 // get all organization
@@ -306,6 +193,74 @@ router.post("/cities", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /registerUser:
+ *   post:
+ *     summary: Register user.
+ *     description: Register user for erp application.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               organizationName:
+ *                 type: string
+ *                 description: The  organization name.
+ *               organizationEmailId:
+ *                 type: string
+ *                 description: The  organization email id.
+ *               contactNumber:
+ *                 type: number
+ *                 description: The  contact number.
+ *                 example: 9113775375
+ *               organizationType:
+ *                 type: string
+ *                 description: The  organization Type.
+ *               address:
+ *                 type: string
+ *                 description: The  address.
+ *               country:
+ *                 type: string
+ *                 description: The  country.
+ *               state:
+ *                 type: string
+ *                 description: The  state.
+ *               city:
+ *                 type: string
+ *                 description: The  city.
+ *               zipCode:
+ *                 type: number
+ *                 description: The  zipcode.
+ *                 example: 844101
+ *               regEmpId:
+ *                 type: string
+ *                 description: The  organization name.
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
+router.post("/registerUser", registerOrganization);
 //For log in super user.
 /**
  * @swagger
@@ -342,31 +297,7 @@ router.post("/cities", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.post("/validateUser", async (req, res) => {
-  const request = req.body;
-  try {
-    const data = await userData.find({
-      email: request.email,
-      password: request.password,
-    });
-    if (data.length > 0) {
-      const _data = data.map((item) => {
-        delete item.password;
-        return item;
-      });
-      console.log("122.....", _data);
-      res.send({ id: data[0]._id });
-    } else {
-      res.send({
-        errorCode: 400,
-        status: "error",
-        message: "Wrong User Id or password",
-      });
-    }
-  } catch (error) {
-    res.send(500).json({ message: error.message });
-  }
-});
+router.post("/validateUser", validateUser);
 
 // API for create User
 /**
@@ -404,35 +335,7 @@ router.post("/validateUser", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.post("/createUser", async (req, res) => {
-  const data = new userData({
-    organization: req.body.orgName,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    contactNo: req.body.contactNo,
-    password: req.body.password,
-    role: req.body.role,
-    module: req.body.allowedModule,
-  });
-  try {
-    await data.save();
-    res.status(200).json({
-      message: "User create successfully.use email id for login",
-      status: "success",
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      res.status(200).json({
-        status: "error",
-        message:
-          "Email Id already exists,Please choose a different email-id for user creation",
-      });
-    } else {
-      res.status(500).json({ message: error.message });
-    }
-  }
-});
+router.post("/createUser", createUser);
 
 // find all user API
 /**
@@ -470,14 +373,7 @@ router.post("/createUser", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.get("/getAllUserDetails", async (req, res) => {
-  try {
-    const data = await userData.find();
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.get("/getAllUserDetails", getAllUserDetails);
 
 // find user by user id API
 /**
@@ -515,16 +411,83 @@ router.get("/getAllUserDetails", async (req, res) => {
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.get("/findUserById/:id", async (req, res) => {
-  const _id = req.params.id;
-  try {
-    const data = await userData.findById(_id);
-    delete data.password;
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+router.get("/findUserById/:id", findUserById);
+
+//Update by ID Method
+/**
+ * @swagger
+ * /update:
+ *   patch:
+ *     summary: Update User by userId.
+ *     description: Update User by userId.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
+router.patch("/updateUserById/:id", updateUserById);
+
+//Delete user by Id
+/**
+ * @swagger
+ * /delete:
+ *   delete:
+ *     summary: Delete user by user id.
+ *     description: Delete user by user id.
+ *     parameters:
+ *       - in: path
+ *         name: organizationName
+ *         required: true
+ *         description: Organization Name you have to user.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The user ID.
+ *                         example: 0
+ *                       name:
+ *                         type: string
+ *                         description: The user's name.
+ *                         example: Leanne Graham
+ */
+router.delete("/deleteUserById/:id", deleteUserById);
 //Get all Tabs
 //Get all Tabs
 /**
@@ -570,99 +533,6 @@ router.get("/getTabs", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-//Update by ID Method
-/**
- * @swagger
- * /update:
- *   patch:
- *     summary: Update User by userId.
- *     description: Update User by userId.
- *     parameters:
- *       - in: path
- *         name: organizationName
- *         required: true
- *         description: Organization Name you have to user.
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
- */
-router.patch("/updateUserById/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const updatedUserData = req.body;
-    const options = { new: true }; // this true or false will specify that whether we want to return a new data in body or not.
-    const data = await userData.findByIdAndUpdate(id, updatedUserData, options);
 
-    res.send(data);
-  } catch (error) {
-    res.send(400).json({ message: error.message });
-  }
-});
-
-//Delete user by Id
-/**
- * @swagger
- * /delete:
- *   delete:
- *     summary: Delete user by user id.
- *     description: Delete user by user id.
- *     parameters:
- *       - in: path
- *         name: organizationName
- *         required: true
- *         description: Organization Name you have to user.
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
- */
-router.delete("/deleteUserById/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = await userData.findByIdAndDelete(id);
-    res.send("User successfully delete.");
-  } catch (error) {
-    res.send(400).json({ message: error.message });
-  }
-});
 
 module.exports = router;
