@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userData = new mongoose.Schema({
-  organization: {
+  orgName: {
     required: true,
     type: String,
   },
@@ -36,4 +36,6 @@ const userData = new mongoose.Schema({
     type: Array,
   },
 });
-module.exports = mongoose.model("userData", userData);
+const user = mongoose.model("userData", userData);
+
+module.exports = user;

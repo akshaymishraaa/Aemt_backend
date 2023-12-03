@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const organization = new mongoose.Schema({
+const organizationData = new mongoose.Schema({
   organizationName: {
     required: true,
     type: String,
@@ -44,4 +44,6 @@ const organization = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("organization", organization);
+const organization = mongoose.model("organization", organizationData);
+
+module.exports = organization;
