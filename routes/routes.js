@@ -14,6 +14,7 @@ const {
   findUserById,
   deleteUserById,
 } = require("../controler/userControler");
+const AddStudent = require('../controler/stundetControler')
 
 
 // get all organization
@@ -533,6 +534,10 @@ router.get("/getTabs", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Add student API 
+
+router.post("/addStudent",AddStudent);
 
 
 module.exports = router;
