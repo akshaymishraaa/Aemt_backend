@@ -1,159 +1,154 @@
 const mongoose = require("mongoose");
 
-const studentsData = new mongoose.Schema([
-  {
-    studentInfo: {
-      studentFullName: {
-        required: true,
-        type: String,
-      },
-      dateOfBirth: {
-        required: true,
-        type: String,
-      },
-      gender: {
-        required: true,
-        type: String,
-      },
-      adharNumber: {
-        required: true,
-        type: String,
-      },
-      categorgy: {
-        required: true,
-        type: String,
-      },
-      classJoining: {
-        required: true,
-        type: String,
-      },
-      dateOfAdmission: {
-        required: true,
-        type: String,
-      },
-      emailId: {
-        required: true,
-        type: String,
-      },
-      contactNumber: {
-        required: true,
-        type: String,
-      },
-      studentProfile: {
-        required: true,
-        type: String,
-      },
-      MotherTongue: {
-        required: true,
-        type: String,
-      },
-      religion: {
-        required: true,
-        type: String,
-      },
-      bloodGroup: {
-        required: true,
-        type: String,
-      },
-      birthCertificate: {
-        required: true,
-        type: String,
-      },
-      studentType: {
-        required: true,
-        type: String,
-      },
+const studentsData = new mongoose.Schema({
+  studentInfo: {
+    studentFullName: {
+      required: false,
+      type: String,
+    },
+    dateOfBirth: {
+      required: false,
+      type: String,
+    },
+    gender: {
+      required: false,
+      type: String,
+    },
+    adharNumber: {
+      required: false,
+      type: String,
+    },
+    categorgy: {
+      required: false,
+      type: String,
+    },
+    classJoining: {
+      required: false,
+      type: String,
+    },
+    dateOfAdmission: {
+      required: false,
+      type: String,
+    },
+    emailId: {
+      required: false,
+      type: String,
+    },
+    contactNumber: {
+      required: false,
+      type: String,
+    },
+    studentProfile: {
+      required: false,
+      type: String,
+    },
+    MotherTongue: {
+      required: false,
+      type: String,
+    },
+    religion: {
+      required: false,
+      type: String,
+    },
+    bloodGroup: {
+      required: false,
+      type: String,
+    },
+    birthCertificate: {
+      required: false,
+      type: String,
+    },
+    studentType: {
+      required: false,
+      type: String,
     },
   },
-  {
-    parentsInfo: {
-      fatherName: {
-        required: true,
-        type: String,
-      },
-      fatherOccupation: {
-        required: true,
-        type: String,
-      },
-      fatherHigherEducation: {
-        required: true,
-        type: String,
-      },
-      motherName: {
-        required: true,
-        type: String,
-      },
-      motherOccupation: {
-        required: true,
-        type: String,
-      },
-      motherHigherEducation: {
-        required: true,
-        type: String,
-      },
-      localGurdian: {
-        required: true,
-        type: String,
-      },
-      gurdianContactNumber: {
-        required: true,
-        type: String,
-      },
-      primaryConactNumber: {
-        required: true,
-        type: String,
-      },
-      localAddress: {
-        required: true,
-        type: String,
-      },
-      PermenantAddress: {
-        required: true,
-        type: String,
-      },
-      emailId: {
-        required: true,
-        type: String,
-      },
-      familyYearlyIcome: {
-        required: true,
-        type: String,
-      },
-      gurdianProfile: {
-        required: true,
-        type: String,
-      },
+
+  parentsInfo: {
+    fatherName: {
+      required: false,
+      type: String,
+    },
+    fatherOccupation: {
+      required: false,
+      type: String,
+    },
+    fatherHigherEducation: {
+      required: false,
+      type: String,
+    },
+    motherName: {
+      required: false,
+      type: String,
+    },
+    motherOccupation: {
+      required: false,
+      type: String,
+    },
+    motherHigherEducation: {
+      required: false,
+      type: String,
+    },
+    localGurdian: {
+      required: false,
+      type: String,
+    },
+    gurdianContactNumber: {
+      required: false,
+      type: String,
+    },
+    primaryConactNumber: {
+      required: false,
+      type: String,
+    },
+    localAddress: {
+      required: false,
+      type: String,
+    },
+    PermenantAddress: {
+      required: false,
+      type: String,
+    },
+    emailId: {
+      required: false,
+      type: String,
+    },
+    familyYearlyIcome: {
+      required: false,
+      type: String,
+    },
+    gurdianProfile: {
+      required: false,
+      type: String,
     },
   },
-  {
-    previousAcademicDetails: {
-      lastClassDetails: {
-        required: true,
-        type: String,
-      },
-      schoolName: {
-        required: true,
-        type: String,
-      },
-      lastAcedamicPercentage: {
-        required: true,
-        type: String,
-      },
-      transferCertificate: {
-        required: true,
-        type: String,
-      },
+
+  previousAcademicDetails: {
+    lastClassDetails: {
+      required: false,
+      type: String,
+    },
+    schoolName: {
+      required: false,
+      type: String,
+    },
+    lastAcedamicPercentage: {
+      required: false,
+      type: String,
+    },
+    transferCertificate: {
+      required: false,
+      type: String,
     },
   },
-  {
-    others: {
-      transportationMode: {
-        required: true,
-        type: String,
-      },
+
+  others: {
+    transportationMode: {
+      required: false,
+      type: String,
     },
   },
-]);
+});
 
 const student = mongoose.model("studentData", studentsData);
 module.exports = student;
