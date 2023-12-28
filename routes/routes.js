@@ -14,7 +14,7 @@ const {
   findUserById,
   deleteUserById,
 } = require("../controler/userControler");
-const AddStudent = require('../controler/stundetControler')
+const {AddStudent,findStudentById, getAllStudentDetails, updateStudentById} = require('../controler/stundetControler')
 
 
 // get all organization
@@ -538,6 +538,18 @@ router.get("/getTabs", async (req, res) => {
 // Add student API 
 
 router.post("/addStudent",AddStudent);
+
+//Find student by Id API
+
+router.get("/findStudentById/:id",findStudentById);
+
+// Get all student details
+
+router.get("/getAllStudentDetails",getAllStudentDetails);
+
+// Update student by Id API
+
+router.patch("/updateStudentById",updateStudentById)
 
 
 module.exports = router;
